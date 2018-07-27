@@ -1,30 +1,31 @@
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Comprador {
 
-	public static void realizarCompra() {
+	private static String url = "jdbc:postgresql://localhost/tarjetas";
 
-		DBConnector db = DBConnector.getInstance();
+	// Credenciales de la base de datos
+	private static String usuario = "postgres";
+	private static String contrasena = "postgres";
+
+	private static Connection BaseDatos = null;
+
+	public static void realizarCompra(String numero, String codigo, double monto, int nroComercio) {
 
 		try {
-			Statement st = db.getBaseDatos().createStatement();
+			BaseDatos = DriverManager.getConnection(url, usuario, contrasena);
+			Statement st = BaseDatos.createStatement();
 
-			ResultSet rs = st.executeQuery("SELECT * FROM alumnos");
+			st.executeQuery("SELECT autorizarCompra('" + numero + "','" + codigo + "'," + monto + "," + nroComercio + ");");
 
-			while (rs.next()) {
-
-				int dni = rs.getInt("dni");
-				String nombre = rs.getString("nombre");
-
-				System.out.println(dni + " " + nombre);
-
-			}
-
-			rs.close();
 			st.close();
+			BaseDatos.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

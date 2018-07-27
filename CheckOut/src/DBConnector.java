@@ -8,7 +8,7 @@ public class DBConnector {
 	private static DBConnector instance = new DBConnector();
 
 	// Donde se localiza la base de datos
-	private String url = "jdbc:postgresql://localhost/prueba";
+	private String url = "jdbc:postgresql://localhost/tarjetas";
 
 	// Credenciales de la base de datos
 	private String usuario = "postgres";

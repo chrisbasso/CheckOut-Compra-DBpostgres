@@ -103,7 +103,7 @@ public class MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				Comprador.realizarCompra();
+				//Comprador.realizarCompra();
 
 			}
 
