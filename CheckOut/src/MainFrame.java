@@ -1,10 +1,15 @@
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+
+import org.javatuples.Pair;
+
 import javax.swing.JComboBox;
 import javax.swing.JButton;
 
@@ -14,6 +19,7 @@ public class MainFrame {
 	private JTextField textFieldNumeroTarjeta;
 	private JTextField textFieldCodigo;
 	private JTextField textFieldMonto;
+	private JComboBox<String> comboBoxComercio = new JComboBox<String>();
 
 	/**
 	 * Launch the application.
@@ -56,18 +62,6 @@ public class MainFrame {
 		frame.getContentPane().add(textFieldNumeroTarjeta);
 		textFieldNumeroTarjeta.setColumns(10);
 
-		JLabel lblVencimiento = new JLabel("VENCIMIENTO");
-		lblVencimiento.setBounds(10, 36, 90, 14);
-		frame.getContentPane().add(lblVencimiento);
-
-		JComboBox comboBoxAnio = new JComboBox();
-		comboBoxAnio.setBounds(127, 33, 59, 20);
-		frame.getContentPane().add(comboBoxAnio);
-
-		JComboBox comboBoxMes = new JComboBox();
-		comboBoxMes.setBounds(212, 33, 59, 20);
-		frame.getContentPane().add(comboBoxMes);
-
 		JLabel lblCodigo = new JLabel("CODIGO");
 		lblCodigo.setBounds(10, 61, 46, 14);
 		frame.getContentPane().add(lblCodigo);
@@ -80,11 +74,20 @@ public class MainFrame {
 		JLabel lblComercio = new JLabel("COMERCIO");
 		lblComercio.setBounds(10, 115, 66, 14);
 		frame.getContentPane().add(lblComercio);
+		
+		ArrayList<Pair<Integer,String>> comercios = ObtencionDatos.getComercios();
+		ArrayList<Integer> nrosComercios = new ArrayList<Integer>();
+		
+		for (Pair<Integer, String> comercio : comercios) {
+			
+			comboBoxComercio.addItem(comercio.getValue1());
+			nrosComercios.add(comercio.getValue0());
+			
+		}
 
-		JComboBox comboBoxComercio = new JComboBox();
 		comboBoxComercio.setBounds(127, 112, 220, 20);
 		frame.getContentPane().add(comboBoxComercio);
-
+		
 		JLabel lblMonto = new JLabel("MONTO");
 		lblMonto.setBounds(10, 140, 46, 14);
 		frame.getContentPane().add(lblMonto);
@@ -103,12 +106,19 @@ public class MainFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				//Comprador.realizarCompra();
+				String numeroTarjeta = textFieldNumeroTarjeta.getText();
+				String codSeguridad = textFieldCodigo.getText();
+				double monto = Double.parseDouble(textFieldMonto.getText());
+				int nroComercio = nrosComercios.get(comboBoxComercio.getSelectedIndex());
+
+				Comprador.realizarCompra(numeroTarjeta, codSeguridad, monto, nroComercio);
 
 			}
 
 		});
 
 	}
+	
+	
 
 }
